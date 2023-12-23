@@ -87,6 +87,7 @@ function RootLayoutNav() {
         presentation: 'modal',
         title: 'Log in or sign up',
         headerTitleStyle: { fontFamily: 'mon-sb' },
+        headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name='close-outline' size={28} />
