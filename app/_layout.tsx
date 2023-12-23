@@ -100,7 +100,7 @@ function RootLayoutNav() {
         name='listing/[id]'
         options={{
           headerTitle: '',
-          headerTransparent: false
+          headerTransparent: true
         }}
       />
 
