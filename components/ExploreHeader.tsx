@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Platform, StatusBar } from 'react-native'
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { Link } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
+import * as Haptics from 'expo-haptics'
+import { ScrollView } from 'react-native-gesture-handler';
 
 const categories = [
     {
@@ -36,6 +38,15 @@ const categories = [
 ];
 
 const ExploreHeader = () => {
+    const scrollRef = useRef<ScrollView>(null);
+    const itemsRef = useRef<Array<TouchableOpacity | null>>([]);
+    const [activeIndex, setActiveIndex] = useState(0)
+
+    const handleSelectCategory = (index: number) => {
+        setActiveIndex(index);
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    }
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
@@ -54,6 +65,24 @@ const ExploreHeader = () => {
                         <Ionicons name='options-outline' size={24} />
                     </TouchableOpacity>
                 </View>
+
+                <ScrollView ref={scrollRef} horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{
+                    alignItems: 'center',
+                    gap: 20,
+                    paddingHorizontal: 16
+                }}>
+                    {categories.map((category, index) => (
+                        <TouchableOpacity
+                            key={category.name}
+                            ref={(el) => itemsRef.current[index] = el}
+                            style={activeIndex === index ? styles.categoriesBtnActive : styles.categoriesBtn}
+                            onPress={() => handleSelectCategory(index)}
+                        >
+                            <MaterialIcons size={24} name={category.icon as any} color={activeIndex === index ? '#000' : Colors.grey} />
+                            <Text style={activeIndex === index ? styles.categoryTextActive : styles.categoryText}>{category.name}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
             </View>
         </SafeAreaView>
     )
@@ -101,7 +130,31 @@ const styles = StyleSheet.create({
             height: 1,
             width: 1
         }
-    }
+    },
+    categoryText: {
+        fontSize: 14,
+        fontFamily: 'mon-sb',
+        color: Colors.grey,
+    },
+    categoryTextActive: {
+        fontSize: 14,
+        fontFamily: 'mon-sb',
+        color: '#000',
+    },
+    categoriesBtn: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 2,
+    },
+    categoriesBtnActive: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderBottomColor: '#000',
+        borderBottomWidth: 2,
+        paddingBottom: 2,
+    },
 })
 
 export default ExploreHeader
