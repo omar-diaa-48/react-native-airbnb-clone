@@ -33,8 +33,7 @@
       "expo-router"
     ],
     "experiments": {
-      "typedRoutes": true,
-      "tsConfigPath": true
+      "typedRoutes": true
     }
   }
 }
