@@ -1,10 +1,19 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const Listing = () => {
+interface Props {
+    listings: any[]
+    category: string
+}
+
+const Listing: React.FC<Props> = ({ category, listings }) => {
+    useEffect(() => {
+        console.log('RELOAD_LISTINGS', category, listings.length);
+    }, [category])
+
     return (
         <View>
-            <Text>Listing</Text>
+            <Text>{category}</Text>
         </View>
     )
 }

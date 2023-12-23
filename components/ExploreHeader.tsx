@@ -37,14 +37,26 @@ const categories = [
     },
 ];
 
-const ExploreHeader = () => {
+interface Props {
+    onCategoryChanged: (category: string) => void
+}
+
+const ExploreHeader: React.FC<Props> = ({ onCategoryChanged }) => {
     const scrollRef = useRef<ScrollView>(null);
     const itemsRef = useRef<Array<TouchableOpacity | null>>([]);
     const [activeIndex, setActiveIndex] = useState(0)
 
     const handleSelectCategory = (index: number) => {
+        const selected = itemsRef.current[index];
+
         setActiveIndex(index);
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+
+        selected?.measure((x, y, w, h, pageX, pageY) => {
+            scrollRef.current?.scrollTo({ x: pageX - 16 })
+        })
+
+        onCategoryChanged(categories[index].name)
     }
 
     return (
