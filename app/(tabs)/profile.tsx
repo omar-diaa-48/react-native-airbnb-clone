@@ -13,7 +13,7 @@ const Profile = () => {
             {isSignedIn ? (
                 <Button title='Log out' onPress={() => signOut()} />
             ) : (
-                <Link href={'/(modals)/login'} />
+                <Link href={'/(modals)/login'} >Log in</Link>
             )}
         </View>
     )
