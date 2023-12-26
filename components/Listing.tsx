@@ -6,9 +6,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import AirbnbListing from '../models/listing.interface'
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated'
+import ListingsMap from './ListingsMap'
+import AirbnbListingFeature from '../models/listing-feature.interface'
 
 interface Props {
-    listings: AirbnbListing[]
+    listings: { features: AirbnbListingFeature[] }
     category: string
 }
 
@@ -53,7 +55,8 @@ const Listing: React.FC<Props> = ({ category, listings }) => {
 
     return (
         <View style={defaultStyles.container}>
-            <FlatList ref={listRef} data={isLoading ? [] : listings} renderItem={renderRow} />
+            {/* <FlatList ref={listRef} data={isLoading ? [] : listings} renderItem={renderRow} /> */}
+            <ListingsMap listings={listings} />
         </View>
     )
 }
